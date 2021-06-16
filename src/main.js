@@ -17,6 +17,7 @@ function loginComp(){
         password: null,
         errorEmail: null,
         errorPassword: null,
+        loadingLogin: false,
         initApp: function () {
             let cookieKey = Cookies.get('token');
             // console.log(cookieKey);
@@ -35,6 +36,9 @@ function loginComp(){
             return this.$store.status.pantalla;
         },   
         onClick: function() {
+
+            this.loadingLogin = true;
+            
             this.errorEmail = null;
             this.errorPassword = null;
 
@@ -84,6 +88,7 @@ function loginComp(){
                         text: "Usuario o contraseña incorrectos",
                         icon: "error",
                     });
+                    this.loadingLogin = false;
                     // console.log('No se logro ingresar');
                 }
                                
@@ -99,9 +104,11 @@ function loginComp(){
                     var expireTime = new Date(new Date().getTime() + minutes * 60 * 1000);
                     Cookies.set('token', this.mytoken.access_token, { expires: expireTime });
                 }
+                this.loadingLogin = false;
             })
             .catch(function(err) {
                 // console.error(err);
+                this.loadingLogin = false;
             });
         },
         onInputEmail: function(event) {

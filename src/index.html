@@ -7,12 +7,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@ryangjchandler/spruce@1.1.0/dist/spruce.umd.js"></script>
 </head>
 
-<body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0">
+<body class="body-bg min-h-screen pt-2 pb-6 px-2 md:px-0">
     <header >        
     </header>
 
     <div x-data = "loginComp()" x-init="initApp()" id="container">
-        <div x-show="status() === 'login'" id="login">
+        <div x-show="!loged && status() === 'login'" id="login">
             
             <!--
             <div class="max-w-lg mx-auto">
@@ -49,8 +49,16 @@
                                 <a href="#" class="text-sm text-blue-400 hover:text-blue-800 hover:underline ">¿Olvidaste tu contraseña?</a>
                             </div>
                             -->
-                    
-                            <button @click="onClick()" class="mt-6 bg-red-acl hover:bg-red-acl text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit">Ingresar</button>
+                            <button type="button"id="upload" @click="onClick()" class="flex justify-center mt-6 bg-red-acl hover:bg-red-acl text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200" type="submit"
+                            x-bind:disabled="loadingLogin">                            
+                                <svg x-show="loadingLogin" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span x-show="!loadingLogin">Ingresar</span>
+                                <span x-show="loadingLogin">Espere...</span>
+                            </button> 
+
                         </div>
                         <!-- </form> -->
                     </div>
@@ -58,7 +66,7 @@
             </main>
         </div>
         
-        <div x-show="status() === 'home'" id="inside">
+        <div x-show="loged && status() === 'home'" id="inside">
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
                 <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2019/07/ACLLOGO.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">                    
@@ -124,7 +132,7 @@
             </div>         
         </div>
 
-        <div x-show="status() === 'newUser'" id="inside">             
+        <div x-show="loged &&  status() === 'newUser'" id="inside">             
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
                 <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2019/07/ACLLOGO.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">
@@ -203,7 +211,7 @@
             </div>            
         </div>
 
-        <div x-show="status() === 'users'" id="inside">             
+        <div x-show="loged &&  status() === 'users'" id="inside">             
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
                 <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2019/07/ACLLOGO.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">
