@@ -1,0 +1,86 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap');
+
+body{
+    background-color: #f5f5f5;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.body-bg {
+    background-color: blueviolet;
+    /*
+    background-image: linear-gradient(315deg, blueviolet 0%, #5f72be 74%);
+    */
+    background-color: #f5f5f5;
+}
+
+h1, h2{
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+}
+
+#loginImg{
+    color: #005be5;
+}
+
+#loginImg:hover{
+    color: #FFF;
+    background-color: #005be5;
+}
+
+.swal-button, .swal-button:hover {
+    background-color: rgb(59, 130, 246) !important;
+}
+
+button{
+    font-family: 'Raleway', sans-serif;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 0px !important;
+}
+
+button:focus {
+    outline:0;
+}
+
+button#upload{
+    background-color: #123159 !important;
+    border: 1px solid #123159;
+    color: #fff;
+}
+
+button#upload:hover {
+    background-color:#FFF !important;
+    border: 1px solid #123159;
+    color: #123159;
+}
+
+button#upload:active{
+    border: 1px solid #123159 !important;
+}
+
+button#upload:disabled,
+button#upload[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc !important;
+  color: #666666;
+}
+
+
+.bg-red-acl{
+    background: #123159;
+}
+
+ul {
+    list-style-type: none;
+    text-transform: uppercase;
+}
+
+li > a:hover{
+    color: #CCC;
+}
