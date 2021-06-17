@@ -59,12 +59,12 @@
         
         <div x-show="loged && status() === 'home'" id="inside">
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
-                <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2019/07/ACLLOGO.png" width="20%" height="20%" alt="ACL Consultores">
+                <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2021/05/Logo1Recortado.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">                    
                     <ul class="flex flex-row">
-                        <li @click="routeTo('home')" class="mr-4 text-white font-bold"><a> Home</a></li>
-                        <li @click="routeTo('newUser')" class="mr-4 text-white font-bold"><a> Nuevo usuario</a></li>
-                        <li @click="routeTo('users')" class="mr-4 text-white font-bold"><a> Usuarios</a></li>
+                        <li @click="routeTo('home')" class="mr-4 text-white font-bold cursor-pointer"><a> Home</a></li>
+                        <li @click="routeTo('newUser')" class="mr-4 text-white font-bold cursor-pointer"><a> Nuevo usuario</a></li>
+                        <li @click="routeTo('users')" class="mr-4 text-white font-bold cursor-pointer"><a> Usuarios</a></li>
                     </ul>
                     <p @click="Logout()" class="mr-4 text-white font-bold">LOGOUT</p>
                     <div id="loginImg"  @click="Logout()" class="transition duration-500 ease-in-out bg-white rounded-full h-16 w-16 my-2 flex justify-center items-center cursor-pointer">
