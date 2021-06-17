@@ -5,9 +5,17 @@ import Cookies from 'js-cookie'
 
 // console.log(window);
 
-Spruce.store('status', {
-    pantalla: ''
-});
+Spruce.store(
+    'status', {
+        pantalla: '',
+        sat_count:0,
+        peps_count:0,        
+        onu_count:0,
+        sat_last: '',
+        peps_last: '',
+        onu_last: '',
+    }
+);
 
 function loginComp(){
     return {
@@ -17,7 +25,7 @@ function loginComp(){
         password: null,
         errorEmail: null,
         errorPassword: null,
-        loadingLogin: false,
+        loadingLogin: false,        
         initApp: function () {
             let cookieKey = Cookies.get('token');
             // console.log(cookieKey);
@@ -28,13 +36,48 @@ function loginComp(){
             } else{
                 this.loged = true;
                 this.$store.status.pantalla = 'home';
+                let url_countlist = "http://apiacl.r2ro.site/api/countlist";
+                fetch(url_countlist, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + cookieKey
+                    },
+                    cache: 'no-cache',
+                 })
+                 .then(function(response) {
+                     console.log(response);
+                    if(response.status == 200){
+                        console.log('Datos leidos');
+                        console.log(response);
+                    }else{                        
+                        swal({
+                            text: "No se pudieron leer los datos",
+                            icon: "error",
+                        });                        
+                        
+                    }                                   
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    this.$store.status.peps_count = data.pepslist;
+                    this.$store.status.sat_count = data.satlist;
+                    this.$store.status.onu_count = data.lpbonulist;
+                    this.$store.status.peps_last = data.pepslist_last.nombre;
+                    this.$store.status.sat_last = data.satlist_last.nombre;
+                    this.$store.status.onu_last = data.lpbonulist_last.nombre;
+                });
             }
 
             // console.log(this.$store.status.pantalla);
         },
         status: function() {
             return this.$store.status.pantalla;
-        },   
+        },
+        prueba: function() {
+            console.log('por suerte...');
+        },
         onClick: function() {
 
             this.loadingLogin = true;
@@ -177,7 +220,8 @@ function uploadData(){
         selectedFile: null,
         tipolista: 'pepslist',
         tipocarga: 'reemplazar',
-        mensajeTipoLista: 'Se reemplazara la base de datos por el contenido del excel.',
+        mensajeTipoCarga: 'Se reemplazara la base de datos por el contenido del excel.',
+        mensajeTipoLista: 'Los campos para una lista PEPS son: NOMBRE, CARGO y FECHA DE NACIMIENTO',
         changeFile: async function(event)  {
             // console.log("evento: ", event.target.files);
             this.selectedFile = await event.target.files[0];
@@ -185,22 +229,25 @@ function uploadData(){
 
         changetopeps: function() {
             this.tipolista = 'pepslist';
+            this.mensajeTipoLista = 'Los campos para una lista PEPS son: NOMBRE, CARGO y FECHA DE NACIMIENTO';
         },
         
         changetosat: function() {
             this.tipolista = 'satlist';
+            this.mensajeTipoLista = 'Los campos para una lista SAT son: NOMBRE, TIPO, NACIONALIDAD, PAIS, RFC, CAUSA y FECHA DE NACIMIENTO';
         },
 
         changetoonu: function() {
             this.tipolista = 'lpbonulist';
+            this.mensajeTipoLista = 'Los campos para una lista ONU son: NOMBRE, ACTIVIDAD y FECHA DE NACIMIENTO';
         },
         changetipoCarga: function(_tipoCarga) {
             if(_tipoCarga === 'reemplazar') {
                 this.tipocarga = 'reemplazar';
-                this.mensajeTipoLista = 'Se reemplazara la base de datos por el contenido del excel.'
+                this.mensajeTipoCarga = 'Se reemplazara la base de datos por el contenido del excel.'
             } else if(_tipoCarga === 'anadir'){
                 this.tipocarga = 'anadir';
-                this.mensajeTipoLista = 'Se añadira a la base de datos el contenido del excel.'
+                this.mensajeTipoCarga = 'Se añadira a la base de datos el contenido del excel.'
             }
         },
         upload: function(event) {
@@ -228,17 +275,32 @@ function uploadData(){
                     cache: 'no-cache'
                     }).then(function(response) {
                         if(response.status == 200){
-                            ref.loading = false;                      
+                            ref.loading = false;
+                            console.log("se subio");
                         }else{
                             ref.loading = false;
                             swal("", "Error al subir la lista. Revise que la lista seleccionada coincida con el archivo de excel cargado.", "error");
                         }                       
                         return response.json();
                     })
-                    .then(data => {     
+                    .then(data => {
+                        console.log(data);
                         ref.loading = false;
-                        if(data == "Lista creada"){
+                        if(data.status == "Lista creada"){
                             swal("", "Operación realizada correctamente", "success");
+                            if(this.tipolista== "pepslist") {
+                                this.$store.status.peps_count = data.records;
+                                this.$store.status.peps_last = data.last.nombre;                    
+                            }
+                            if(this.tipolista== "satlist") {
+                                this.$store.status.sat_count = data.records;
+                                this.$store.status.sat_last = data.last.nombre;                           
+                            }
+                            if(this.tipolista== "lpbonulist") {
+                                this.$store.status.onu_count = data.records;
+                                this.$store.status.onu_last = data.last.nombre;
+                            }
+                            
                         }                       
                         else if(data.hasOwnProperty("Error en compatibilidad")){
                             swal("", "Error al subir la lista. Revise que la lista seleccionada coincida con el archivo de excel cargado.", "error");  
