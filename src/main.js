@@ -26,7 +26,7 @@ function loginComp(){
         errorEmail: null,
         errorPassword: null,
         loadingLogin: false,        
-        initApp: function () {
+        initApp: async function () {
             let cookieKey = Cookies.get('token');
             // console.log(cookieKey);
 
@@ -37,7 +37,7 @@ function loginComp(){
                 this.loged = true;
                 this.$store.status.pantalla = 'home';
                 let url_countlist = "http://apiacl.r2ro.site/api/countlist";
-                fetch(url_countlist, {
+                await fetch(url_countlist, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -45,20 +45,20 @@ function loginComp(){
                     },
                     cache: 'no-cache',
                  })
-                 .then(function(response) {
-                     console.log(response);
-                    if(response.status == 200){
-                        console.log('Datos leidos');
-                        console.log(response);
-                    }else{                        
-                        swal({
-                            text: "No se pudieron leer los datos",
-                            icon: "error",
-                        });                        
-                        
-                    }                                   
-                    return response.json();
-                })
+                 .then(function (response) {
+                         console.log(response);
+                         if (response.status == 200) {
+                             console.log('Datos leidos');
+                             console.log(response);
+                         } else {
+                             swal({
+                                 text: "No se pudieron leer los datos",
+                                 icon: "error",
+                             });
+
+                         }
+                         return response.json();
+                     })
                 .then(data => {
                     console.log(data);
                     this.$store.status.peps_count = data.pepslist;

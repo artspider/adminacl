@@ -11,8 +11,8 @@
     <header >        
     </header>
 
-    <div x-data = "loginComp()" x-init="initApp()" id="container">
-        <div x-show="!loged && status() === 'login'" id="login">
+    <div x-data = "loginComp()" x-init="$nextTick(() => initApp()) " id="container" x-cloak>
+        <div x-show="!loged && status() === 'login'" id="login" x-cloak>
             <main class="bg-white max-w-lg mx-auto p-8 md-p-12 my-10 rounded-lg shadow-2xl text-center">
                 <section class="text-center">
                     <h3 class="text-2xl font-semibold">BIENVENIDO ADMIN</h3>
@@ -57,7 +57,7 @@
             </main>
         </div>
         
-        <div x-show="loged && status() === 'home'" id="inside">
+        <div x-show="loged && status() === 'home'" id="inside" x-cloak>
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
                 <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2021/05/Logo1Recortado.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">                    
@@ -144,7 +144,7 @@
                      
         </div>
 
-        <div x-show="loged &&  status() === 'newUser'" id="inside">             
+        <div x-show="loged &&  status() === 'newUser'" id="inside" x-cloak>
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
                 <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2019/07/ACLLOGO.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">
@@ -223,7 +223,7 @@
             </div>            
         </div>
 
-        <div x-show="loged &&  status() === 'users'" id="inside">             
+        <div x-show="loged &&  status() === 'users'" id="inside" x-cloak>             
             <div class="container flex justify-between bg-gray-900 mx-auto mb-4 py-4 pr-4" >
                 <img class="ml-4" src="http://aclconsultores.com/wp-content/uploads/2019/07/ACLLOGO.png" width="20%" height="20%" alt="ACL Consultores">
                 <div class="flex items-center">
